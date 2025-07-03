@@ -111,11 +111,51 @@ function popup() {
     const modal = new bootstrap.Modal(document.getElementById('fullscreenModal'));
 
     modal.show();
-    const delay = Math.floor(Math.random() * (10000 - 6000 + 1)) + 6000;
+    const duration = Math.floor(Math.random() * (15000 - 10000 + 1)) + 10000;
+
+    const bar = document.querySelector('.progress-bar');
+
+    const durationSec = duration / 1000;
+
+    bar.style.animation = `loadingBar ${durationSec}s linear forwards`;
+
+    const messages = [
+        "Перечитую важливі опінії...",
+        "Дивлюся в майбутнє...",
+        "Формую вектор ґеймера...",
+        "Передивляюсь фолови в Х...",
+        "Аналізую участь в срачах...",
+        "Аналізую твоє ставлення до ремейків...",
+        "Вивчаю глибину задротства...",
+        "Оцінюю вплив дитинства на вибір ігор...",
+        "Читаю всі твіти з тегом #ігролад...",
+        "Шукаю всі твіти з тегом #дієвидло...",
+        "Викликаю дух Міядзакі..."
+    ];
+
+    const loadingEl = document.getElementById('loading');
+    const minDelay = 1500;
+    const maxDelay = 2500;
+    let elapsed = 0;
+
+    function showRandomMessage() {
+        if (elapsed >= duration) return;
+
+        const msg = messages[Math.floor(Math.random() * messages.length)];
+        loadingEl.textContent = msg;
+
+        const delay = Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
+        elapsed += delay;
+
+        setTimeout(showRandomMessage, delay);
+    }
+
+    showRandomMessage();
+
     setTimeout(() => {
         generate();
         modal.hide();
-    }, delay);
+    }, duration);
 
 }
 function generate() {
