@@ -107,16 +107,15 @@ function normalizeHash(hash, min, max) {
     return min + (Math.abs(hash) % (max - min + 1));
 }
 
-
 function popup() {
     const modal = new bootstrap.Modal(document.getElementById('fullscreenModal'));
 
     modal.show();
-    // Закрити модалку через 7 секунд
+    const delay = Math.floor(Math.random() * (10000 - 6000 + 1)) + 6000;
     setTimeout(() => {
         generate();
         modal.hide();
-    }, 7000);
+    }, delay);
 
 }
 function generate() {
@@ -159,7 +158,7 @@ function generate() {
     document.getElementById('xLeft-placement').innerText = `${proXLeft}%`;
     document.getElementById('xRight-bar').style.width = `${proXRight}%`;
     document.getElementById('xRight-placement').innerText = `${proXRight}%`;
-    document.getElementById('placement').innerText = `#${normalizeHash(hashCode(nickname.toLowerCase()) * 666, 1, 5000)}`;
+    document.getElementById('placement').innerText = `#${normalizeHash(hashCode(nickname.toLowerCase()), 1, 1000)}`;
     const placement = document.getElementsByClassName('placement')[0];
     placement.style.display = `block`;
 }
