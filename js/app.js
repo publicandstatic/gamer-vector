@@ -158,7 +158,7 @@ function generate() {
     document.getElementById('xLeft-placement').innerText = `${proXLeft}%`;
     document.getElementById('xRight-bar').style.width = `${proXRight}%`;
     document.getElementById('xRight-placement').innerText = `${proXRight}%`;
-    document.getElementById('placement').innerText = `#${normalizeHash(hashCode(nickname.toLowerCase()), 1, 1000)}`;
+    document.getElementById('placement').innerText = `#${normalizeHash(hashCode(nickname.toLowerCase() + '_miyazaki'), 1, 1000)}`;
     const placement = document.getElementsByClassName('placement')[0];
     placement.style.display = `block`;
 }
