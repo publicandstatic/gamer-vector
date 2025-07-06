@@ -156,20 +156,21 @@ function popup() {
         generate();
         modal.hide();
     }, duration);
-
 }
+
 function generate() {
     let rawInput = document.getElementById('nickname').value.trim();
 
     let nickname = rawInput
         .replace(/^@/, '')
         .replace(/^https?:\/\/(x|twitter)\.com\//, '')
+        .replace(/^https?:\/\/bsky\.app\/profile\//, '')
         .replace(/\/.*$/, '')
         .trim();
     if (!nickname) return;
 
-    const x = normalizeHash(hashCode(nickname.toLowerCase() + "_x"), -100, 100);
-    const y = normalizeHash(hashCode(nickname.toLowerCase() + "_y"), -100, 100);
+    const x = normalizeHash(hashCode(nickname.toLowerCase()) * 10, -100, 100);
+    const y = normalizeHash(hashCode(nickname.toLowerCase()) * 5, -100, 100);
 
     const proYBottom = Math.round(50 + (-y / 2));
     const proYTop = 100 - proYBottom;
@@ -201,4 +202,39 @@ function generate() {
     document.getElementById('placement').innerText = `#${normalizeHash(hashCode(nickname.toLowerCase() + '_miyazaki'), 1, 1000)}`;
     const placement = document.getElementsByClassName('placement')[0];
     placement.style.display = `block`;
+}
+
+function getPrimes(n) {
+    const sieve = new Array(n + 1).fill(true);
+    sieve[0] = sieve[1] = false;
+
+    for (let i = 2; i * i <= n; i++) {
+        if (sieve[i]) {
+            for (let j = i * i; j <= n; j += i) {
+                sieve[j] = false;
+            }
+        }
+    }
+
+    return sieve
+        .map((isPrime, number) => isPrime ? number : null)
+        .filter(Boolean);
+}
+
+function test() {
+    let primes = getPrimes(500);
+    for (let i = 1; i < 500; i++) {
+        const x1 = normalizeHash(hashCode('test1') *i, -100, 100);
+        const x2 = normalizeHash(hashCode('test2') *i, -100, 100);
+        if (x1 > 60 && x2 < -60) {
+            console.log(i, x1, x2);
+        }
+    }
+    for (let i = 0; i < primes.length; i++) {
+        const x1 = normalizeHash(hashCode('test1') * primes[i], -100, 100);
+        const x2 = normalizeHash(hashCode('test2') * primes[i], -100, 100);
+        if (x1 > 60 && x2 < -60) {
+            console.log(primes[i], x1, x2);
+        }
+    }
 }
